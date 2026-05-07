@@ -1,0 +1,57 @@
+You are designing the complete tool set for a conversational recommendation
+agent that helps users find the right {item_noun}.
+
+{context}
+
+The agent needs tools to interact with this catalog during a conversation.
+The ONLY fixed tools are:
+  - recommend_products — submit final picks (terminal, ends conversation)
+  - declare_infeasible — declare no match exists (terminal, ends conversation)
+
+ALL other tools must be created by you, tailored to this specific dataset.
+Here are the core capabilities the tools must collectively cover:
+
+REQUIRED CAPABILITIES:
+1. FILTERING — The agent must be able to narrow the catalog by structured
+   constraints (e.g. price <= X, brand = Y, genre contains "Action").
+   The tool(s) should expose parameters that match the actual columns and
+   data types in this catalog.  Fuzzy/approximate value matching is a plus.
+
+2. EXPLORATION / SEARCH — The agent must be able to explore the catalog
+   when the user describes what they want in natural language rather than
+   exact filter values.
+
+3. INSPECTION — The agent must be able to look at the full details of a
+   specific {item_noun} by its ID before recommending it.
+
+4. DISCOVERY — The agent should be able to discover what values exist in
+   the catalog for a given field (e.g. list all available brands, genres,
+   price ranges) so it can guide the user.
+
+OPTIONAL BUT VALUABLE:
+5. COMPARISON — Side-by-side comparison of 2-3 candidates on the
+   dimensions that matter most for this domain.
+
+6. DOMAIN-SPECIFIC HELPERS — Any tool that addresses a concrete gap or
+   common pattern in this specific dataset (e.g. availability checks,
+   compatibility lookups, category-hierarchy navigation).
+
+Design {max_tools} tools total.  Each tool should be clearly scoped — a tool
+that does ONE thing well is better than a Swiss-army-knife tool.  But also
+avoid unnecessary fragmentation: if two capabilities naturally combine for
+this dataset, merge them.
+
+Return JSON (no markdown fences):
+{{
+  "tools": [
+    {{
+      "name": "snake_case_tool_name",
+      "description": "1-2 sentence description the agent will see in its tool list",
+      "rationale": "why this tool is needed — what capability it covers or what failure mode it prevents",
+      "parameters": [
+        {{"name": "param_name", "type": "string|integer|number|boolean|array", "description": "...", "required": true}}
+      ],
+      "returns": "what the tool returns (human-readable)"
+    }}
+  ]
+}}

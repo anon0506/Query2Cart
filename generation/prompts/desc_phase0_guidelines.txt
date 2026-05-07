@@ -1,0 +1,15 @@
+You are designing an attribute extraction schema for {domain}.
+
+Extraction over {n_sampled} products (across {n_batches_done} diverse product clusters) produced these raw attribute keys and example values:
+
+{key_summary}
+
+Your job: produce a SHORT, concrete naming guideline that future extraction calls should follow. The guideline should:
+1. List the canonical attribute names to use (snake_case).
+2. For each, state the expected value type and format (boolean, categorical with allowed values, numeric with unit, etc.).
+3. Group synonyms — if the sample shows "scent", "fragrance_type", and "scent_type", pick ONE canonical name and list the others as aliases to avoid.
+4. Omit attributes that duplicate these structured fields: {structured_fields}
+5. Keep the list to attributes that appeared in >=2 products.
+
+Return the guideline as plain text (not JSON), formatted as a numbered list.
+Keep it under 60 lines.

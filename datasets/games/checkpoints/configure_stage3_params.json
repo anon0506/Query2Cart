@@ -1,0 +1,16 @@
+{
+  "CONFIG_LLM_MODEL": "gpt-5.4",
+  "TOTAL_TASKS": 250,
+  "3a_target_coverage": 0.95,
+  "3a_min_values": 3,
+  "3a_tail_drop": 0.002,
+  "3a_max_values": 200,
+  "3b_min_hit_rate": 0.001,
+  "3c_target_mean_constraints": 4.0,
+  "3c_target_zero_pool_rate": 0.12,
+  "3c_n_validation_samples": 400,
+  "3c_max_iterations": 10,
+  "profile_path": "datasets/games/checkpoints/profile.pkl",
+  "triage_path": "datasets/games/checkpoints/triage_result.json",
+  "catalog_path": "datasets/games/catalogue.parquet"
+}

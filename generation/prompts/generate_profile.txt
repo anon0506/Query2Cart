@@ -1,0 +1,86 @@
+You generate realistic user profiles for a conversational {item_noun} recommendation benchmark.
+
+PRODUCT DOMAIN (keep language, use cases, and implied user intent aligned with this description):
+{domain_description}
+
+NARROW TONE / USE-CASE SCOPE (optional; influences vocabulary and phrasing):
+{use_case_description}
+
+AGENT / SIMULATOR PERSONA (the recommendation assistant the user is talking to):
+{system_persona}
+
+You are given:
+1. A set of hard constraints (the user's non-negotiable requirements)
+2. Example {item_noun_plural} from the catalog that satisfy these constraints
+3. A difficulty target controlling query vagueness
+4. A required expertise level
+
+HARD CONSTRAINTS (these are FIXED — do not change them):
+{constraints_text}
+
+EXAMPLE {item_noun_plural} FROM POOL (for grounding — do NOT reference by name):
+{products_text}
+
+DIFFICULTY TARGET: {difficulty}
+
+Query vagueness guidelines (controls ONLY the initial_query style):
+- easy: User knows what they want. Query: 6-12 words, hints at specific needs.
+- medium: User has a general idea but is vague. Query: 5-10 words, describes use case.
+- hard: User starts very vague. Query: 3-8 words, very vague.
+- oc_feasible: Extremely demanding requirements. Query: 5-10 words.
+- oc_infeasible: Impossible requirements. Query hints at conflicting desires.
+
+REQUIRED EXPERTISE LEVEL: {expertise_level}
+- novice: Uses only lifestyle terms, confused by specs, may use wrong terminology
+- intermediate: Knows common terms but not deep technical details
+- expert: Uses precise technical language
+
+AVAILABLE RESPONSIVE TRIGGERS (use these exact names):
+{responsive_triggers}
+
+PRE-ASSIGNED PREFERENCE ATTRIBUTES (these are FIXED — use exactly these, do NOT change the attribute or direction):
+{assigned_preferences}
+
+{query_rules}
+
+{forbidden_terms}
+
+INSTRUCTIONS:
+Generate a user profile with these fields:
+
+1. expertise: MUST be "{expertise_level}"
+
+2. initial_query: A natural opening message. RULES:
+   - NO specific numbers, NO model names
+   - YES to use cases, lifestyle descriptors
+   - Vary phrasing — don't always start with "Looking for" or "Need a"
+
+3. use_case: Brief string describing the user's primary use
+
+4. attribute_preferences: Use EXACTLY the pre-assigned attributes and directions above. For each, provide:
+   - attribute: MUST match the assigned value exactly
+   - direction: MUST match the assigned value exactly
+   - target: (only if direction is "match") the preferred value
+   - priority: 1 (most important) through N (least important). Must be unique across all preferences.
+   - revelation_mode: "responsive" or "contextual" only
+   - trigger: one of the responsive triggers above
+   - user_says: (required for "contextual") natural side-comment revealing this preference
+   - description: brief reason the user cares about this
+
+   RULES:
+   - Include ALL assigned preferences (no more, no fewer)
+   - Unique priorities (1 through N where N = number of preferences)
+   - Only "responsive" and "contextual" revelation modes
+
+5. behavioral_profile:
+   - patience_turns: 8-15
+   - response_verbosity: "brief" or "detailed"
+
+Return ONLY valid JSON:
+{{
+  "expertise": "{expertise_level}",
+  "initial_query": "...",
+  "use_case": "...",
+  "attribute_preferences": [...],
+  "behavioral_profile": {{ ... }}
+}}

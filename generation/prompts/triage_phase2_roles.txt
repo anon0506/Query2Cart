@@ -1,0 +1,57 @@
+You are a data analyst configuring a conversational recommendation benchmark for {item_noun}s.
+
+DOMAIN: {domain_description}
+
+The following {n_columns} columns have been selected as relevant for the benchmark. For each column, assign exactly one role and fill in the supporting metadata fields.
+
+AVAILABLE ROLES:
+- "id": The single column that most meaningfully identifies each product to a human — e.g. the product name for cosmetics, model number for cars, game title for games. Pick the column a customer would naturally use to refer to the item; never pick a system-generated UUID, hash, barcode, or opaque alphanumeric code. Exactly one column must be assigned this role.
+- "hard_filter": User sets a hard, non-negotiable constraint (e.g., price <= $1000, brand = "Dell"). Use for attributes users commonly filter by with exact-match or range constraints. Numeric columns typically become upper-bound (max) or lower-bound (min) filters. Categorical columns become exact-match or set-membership filters.
+- "soft_preference": User expresses a soft ranking preference (e.g., "prefer lighter", "cheaper is better"). Not a hard cutoff — used to rank products that pass all hard filters. Good for attributes where users have a direction but no strict threshold.
+- "set_filter": Column contains a list/set of values per row, and users can require membership OR exclusion (e.g., genres must include "Action", allergens must NOT contain "gluten"). Use only for list-valued columns.
+- "embedding_text": Free-text field suitable for semantic search embeddings (e.g., product description, title + summary). Usually 1–2 columns.
+- "drop": Remove from benchmark configuration.
+
+GUIDANCE:
+- Assign "id" to exactly one column — the one a customer would use to name or refer to the product (product name, model number, game title, etc.). System-generated UUIDs, hashes, barcodes, or SKUs should be dropped instead.
+- Assign "hard_filter" to attributes where users would set firm requirements (price caps, minimum ratings, specific brands/categories, allergen restrictions).
+- Assign "soft_preference" to attributes where users rank but don't set cutoffs (prefer lower calories, prefer higher rating — when not used as a hard filter).
+- **Soft-to-hard ratio: aim for roughly 1 soft_preference for every 2 hard_filters** (1:2 ratio). This is a guideline, not a strict rule — don't force columns into unnatural roles to hit the ratio, but when a column could plausibly be either, lean toward whichever role moves the balance closer to 1:2.
+- A column should be "hard_filter" OR "soft_preference", not both. Choose based on which is more natural for users in this domain.
+- For numeric or date/time hard_filter: set constraint_direction to "max" if users set upper bounds (price, calories, weight, release date on/before) or "min" if users set lower bounds (rating, capacity, duration, release date on/after).
+- For set_filter: set membership_type to "contains_any" if the user wants at least one match, or "contains_all" if the user wants every listed value present.
+- **For set_filter: set constraint_polarity.** This is CRITICAL for correct filtering:
+  - "positive" — users want products that CONTAIN these values (e.g., "must include vitamin E", "genres must include Action", "must have USB-C port"). The filter INCLUDES products with matching values.
+  - "negative" — users want products that DO NOT CONTAIN these values (e.g., "must not contain allergen X", "no artificial sweeteners", "exclude horror genre"). The filter EXCLUDES products with matching values.
+  - Think carefully about the real-world semantics: do users of this {item_noun} domain typically search FOR items in this column, or search to AVOID items? Allergens, harmful ingredients, and unwanted traits are "negative". Features, certifications, genres, and desired ingredients are "positive".
+
+COLUMN DETAILS (each block is one column: name, kind, stats, and a **"Brief description of this attribute"** line when profiling supplied one; if the line says "(none)", infer a sensible one-sentence meaning from the name, kind, and stats):
+{column_summaries}
+
+For each column, return a JSON object with these fields:
+- "column": exact column name (must match input)
+- "role": one of: id, hard_filter, soft_preference, set_filter, embedding_text, drop
+- "user_facing_name": a human-friendly display name (e.g., "Nutri-Score Grade" for nutriscore_grade)
+- "attribute_description": one short sentence — a **brief description of that particular attribute** in this catalog (not generic boilerplate): what the field is, what it represents for a {item_noun}, and what the customer is trying to express or constrain when they use it. Ground this in the **brief description** line in the block above when present; otherwise infer from the column name, kind, and stats. This is separate from "user_facing_name" and is not a repeat of the raw role name.
+- "constraint_direction": (ONLY for numeric or datetime hard_filter) "max" or "min"
+- "preference_direction": (ONLY for soft_preference) "minimize", "maximize", or "match"
+- "membership_type": (ONLY for set_filter) "contains_any" or "contains_all"
+- "constraint_polarity": (ONLY for set_filter) "positive" or "negative" — whether the user wants to INCLUDE or EXCLUDE products matching the values. See guidance above.
+- "note": brief reasoning for your role choice (1 sentence)
+
+Return valid JSON:
+{{
+  "columns": [
+    {{
+      "column": "...",
+      "role": "...",
+      "user_facing_name": "...",
+      "attribute_description": "...",
+      "constraint_direction": "",
+      "preference_direction": "",
+      "membership_type": "",
+      "constraint_polarity": "",
+      "note": "..."
+    }}
+  ]
+}}

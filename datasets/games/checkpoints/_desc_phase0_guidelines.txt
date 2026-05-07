@@ -1,0 +1,55 @@
+1. core_mechanics — list[string]. Use 1–6 short snake_case gameplay verbs/nouns (e.g., `puzzle_solving`, `base_defense`, `monster_catching`). Alias to avoid: mechanics, gameplay_loop, gameplay_features.
+
+2. subgenre — string or list[string] if truly multiple co-equal subgenres. Use concise snake_case labels (e.g., `roguelite`, `tactical_fps`, `tower_defense`). Alias to avoid: genre_detail, niche_genre, subtype.
+
+3. focus — string or list[string]. Primary play focus such as `story`, `combat`, `simulation`, `reflexes`, `strategy`, `skill`. Alias to avoid: gameplay_focus, primary_focus.
+
+4. theme — string or list[string]. Narrative/conceptual theme in snake_case (e.g., `mystery`, `heroic_fantasy`, `political_satire`, `robot_rebellion`). Alias to avoid: motif, subject_theme.
+
+5. objective — string or list[string]. Player’s high-level goal phrased as compact snake_case action/outcome (e.g., `escape`, `return_home`, `restore_peace`). Alias to avoid: player_goal, end_goal, mission.
+
+6. setting — string or list[string]. Place/world/context of the game (e.g., `space`, `earth_wasteland`, `house`, `subconscious_mind`). Alias to avoid: world_setting, locale, environment.
+
+7. tone — string or list[string]. Emotional or stylistic tone (e.g., `cozy`, `relaxing`, `tense`, `quirky`, `lewd`). Alias to avoid: mood, vibe, setting_tone.
+
+8. enemy_type — string or list[string]. Main opposing creature/faction types (e.g., `infected`, `aliens`, `demons`, `sentient_machines`). Alias to avoid: enemy_role, opponent_species, foe_type.
+
+9. player_role — string or list[string]. In-world role/identity of the player character (e.g., `president`, `archaeologist`, `pirate_captain`, `god`). Alias to avoid: playable_role, protagonist_role, class_role.
+
+10. camera_perspective — categorical string. Allowed values: `first_person`, `third_person`, `top_down`, `side_view`, `isometric`, `3d`. Prefer viewpoint terms over visual dimension; use `3d` only when copy is vague. Alias to avoid: perspective, camera_view, dimension.
+
+11. pace — categorical string. Allowed values: `fast_paced`, `moderate`, `slow_paced`, `play_at_your_own_pace`. Alias to avoid: speed, gameplay_pace.
+
+12. atmosphere — string or list[string]. Environmental feel descriptors (e.g., `eerie`, `dark`, `beautiful`, `immersive`, `surreal`). Alias to avoid: ambiance, world_description, lighting.
+
+13. combat_style — categorical string or list[string] for hybrids. Allowed values: `real_time`, `turn_based`, `hybrid`, plus specific modifiers if essential (e.g., `laser_combat`). Alias to avoid: combat_timing, battle_system.
+
+14. player_count — categorical string. Allowed values: `single_player`, `multiplayer`, `both`. Alias to avoid: player_mode, mode_count.
+
+15. playable_character — string or list[string]. Specific controllable character type(s) if unusually salient (e.g., `cat`, `mech`, `ghost`, `high_school_girls`). Alias to avoid: protagonist_type, playable_group.
+
+16. world_structure — categorical string. Allowed values: `open_world`, `level_based`, `procedurally_generated`, `endless`, `hub_based`. Alias to avoid: map_structure, progression_structure.
+
+17. art_style — string or list[string]. Visual presentation style (e.g., `pixel_art`, `hand_drawn`, `retro_3d`, `stylized`, `colorful`). Merge duplicates here. Aliases to avoid: visual_style, presentation_style.
+
+18. multiplayer_focus — categorical string. Allowed values: `competitive`, `cooperative`, `mixed`. Only use when multiplayer is present. Alias to avoid: pvp_pve_focus, online_focus.
+
+19. adult_content — boolean. `true` only for explicit sexual/adult content. Alias to avoid: nsfw, sexual_content.
+
+20. premise — categorical string. Short inciting scenario/setup (e.g., `post_outbreak`, `alien_invasion`, `transported_to_demon_realm`). Alias to avoid: setup, narrative_premise.
+
+21. educational_focus — string or list[string]. Learning subject or skill (e.g., `language_learning`, `video_editing`, `word_processing`). Alias to avoid: educational_topic, intended_benefit.
+
+22. gore — boolean. `true` only when graphic gore/dismemberment is explicitly present. Alias to avoid: graphic_violence.
+
+23. branching_endings — boolean. Alias to avoid: multiple_endings.
+
+24. moral_choices — boolean. Alias to avoid: ethics_choices, choice_consequence.
+
+25. business_model — categorical string. Allowed values: `free_to_play`, `premium`. Do not infer from price if unclear. Alias to avoid: monetization_model.
+
+26. pvp — boolean. `true` only when player-versus-player is explicitly supported. Alias to avoid: competitive_pvp.
+
+27. vr_support — boolean. Merge all VR mentions here. Aliases to avoid: vr, immersive_vr.
+
+Rules: use snake_case keys and values; prefer singular canonical names above; use booleans only for clear yes/no claims; use lists only when multiple values are equally central; omit anything already covered by structured store fields or one-off niche attributes.

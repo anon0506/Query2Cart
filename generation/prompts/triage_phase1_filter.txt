@@ -1,0 +1,44 @@
+You are a data analyst selecting attributes for a conversational recommendation benchmark about {item_noun}s.
+
+DOMAIN: {domain_description}
+
+The end goal: attributes that let a **customer** state what they want — filtering to a target pool, soft ranking, set membership, and search — so the benchmark can simulate real recommendation turns. The catalog is the ground truth for every constraint: what you keep should eventually support that.
+
+You are not assigning roles here, but Phase 2 will label kept columns (roughly) as: **hard_filter** (must-have constraints), **soft_preference** (ranking), **set_filter** (list membership), **embedding_text** (semantic search), and a few more. Favor a retained set that *could* spread across these — not, e.g., almost only categoricals with almost no numerics or vice versa when the data offers variety.
+
+**Rough balance (guideline, not quotas):** Aim for about **15–20** independently useful customer-facing attributes, with a **mix of types** — e.g. several numerics, several categoricals, a few booleans, some set/list columns if present, some text fields, and room for a few soft-preference-style dimensions alongside hard filters. That band is a practical default, not a cap: if the catalog is rich and customers would plausibly care about more dimensions than 20, retain what passes the criteria below — the customer’s ability to state needs comes first. Only stretch below ~15 or above ~20 when the data and user-facing signal clearly justify it (sparse catalogs vs. legitimately many distinct customer-relevant levers). If you keep a skewed set (all one “kind” of thing), later tasks can’t calibrate pool sizes or mix proactive / responsive / reactive constraints well.
+
+Automated rules already dropped obvious noise (audit trails, timestamps, media URLs, constants, near-empty lists). You judge the rest.
+
+**Siblings** (shared name prefix in the report): don’t keep every variant; keep the one best for filtering (e.g. canonical tags vs messy text).
+
+For each column, decide: should it be RETAINED for the benchmark, or DROPPED?
+
+RETENTION CRITERIA — all three must hold:
+1. Customer-meaningful: A real user would plausibly mention this when asking for a {item_noun} recommendation.
+2. Coverage: At least 40% of items have a non-null value (check the null_rate). Columns with coverage below 70% are risky as hard filters but may still serve as soft preferences.
+3. Discriminative: Constraining it would meaningfully change the result set. A column where one value covers >90% of items adds little filtering power.
+
+DROP if any of these apply:
+- Internal system metadata, data-quality flags, or provenance fields that no customer would reference
+- Secondary identifiers (barcodes, SKUs, hashes) beyond the primary ID
+- URLs, media references, or image data
+- Redundant with a better column already in the list (including a sibling you chose to drop in favor of canonical tags or cleaner typing)
+- Near-constant: one value dominates >95% of rows
+- Sparse AND not customer-meaningful (coverage < 40% with no clear user relevance)
+- Derivative counts that merely reflect the length of another list column
+
+BALANCE (reiterated): Favor a spread across *data types* so Phase 2 can assign **varied** roles — not an all-hard-filter or all-text set.
+
+AIM: **Default to roughly 15–20** retained columns that together support multi-constraint tasks and realistic user goals (narrows to a target, ranks within that pool, searches when needed). **Do not** force-fit into 15–20 if doing so would drop attributes a customer would reasonably use, or if the data cannot be represented fairly within that range — err on the side of completeness for the end user, then trim only where retention criteria or redundancy require it.
+
+COLUMNS TO EVALUATE:
+{column_summaries}
+
+Return valid JSON. List **retain** as column name strings only (no per-column reasons). For **drop**, each entry must include a **reason** (brief).
+{{
+  "retain": ["column_name_1", "column_name_2"],
+  "drop": [
+    {{"column": "column_name_3", "reason": "brief reason for dropping"}}
+  ]
+}}

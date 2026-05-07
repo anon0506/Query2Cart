@@ -1,0 +1,25 @@
+You are a domain expert for {item_noun} recommendations.
+
+Given the constraints below, write Python coherence rules that reject physically impossible or nonsensical constraint combinations. These rules prevent the benchmark from generating tasks that no real user would hold.
+
+CONSTRAINTS:
+{constraint_summaries}
+
+EXAMPLE COHERENCE RULES (from a laptop domain):
+- Budget laptops (price <= $500) can't have 32GB RAM
+- Dedicated GPU laptops weigh at least 1.6kg — don't combine with weight < 1.6kg
+- Large screen (>= 15") + ultralight (< 1.6kg) is contradictory
+
+Write a Python function `is_coherent(constraints: dict) -> bool` that returns True if the constraint set is realistic and False if it's contradictory.
+
+The function receives a dict where keys are constraint names and values are the constraint values. Use `.get()` to safely access optional keys.
+
+Return ONLY the Python function code (no markdown fences, no imports needed):
+
+{{
+  "function_code": "def is_coherent(constraints: dict) -> bool:\n    ...\n    return True",
+  "rules_explained": [
+    "Rule 1: ...",
+    "Rule 2: ..."
+  ]
+}}

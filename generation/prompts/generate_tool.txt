@@ -1,0 +1,44 @@
+You are implementing a Python tool for a {item_noun} recommendation agent.
+
+{context}
+
+── TOOL TO IMPLEMENT ──
+Name:        {name}
+Description: {description}
+Parameters:  {parameters}
+Returns:     {returns}
+Rationale:   {rationale}
+
+{existing_note}
+
+── CODE REQUIREMENTS ──
+Write a single function  _build_{name}_tool() -> DomainToolSpec  that:
+
+1. Builds an OpenAI function-calling ``schema`` dict with:
+   - schema["type"] = "function"
+   - schema["function"]["name"] = "{name}"
+   - schema["function"]["description"] = <your tool description>
+   - schema["function"]["parameters"] = JSON Schema for the parameters
+
+2. Defines an inner function  _fn(ctx, **kwargs) -> str  where:
+   - ctx is a DomainCatalogContext (has .catalog: DataFrame, .config: DomainConfig)
+   - ctx.get_product(product_id) returns a pd.Series or None
+   - The catalog is indexed by "{id_column}" (dtype: {id_dtype}).
+     IMPORTANT: the index values are {id_dtype}, so when looking up by
+     product_id always match types (e.g. ctx.get_product(str(pid))).
+   - Array-valued columns (genres, categories, languages …) store
+     **numpy arrays**.  Use  val.tolist()  or  list(val)  to iterate.
+   - Always guard against None / NaN with explicit checks.
+   - Return a concise, human-readable string.
+
+3. Returns  DomainToolSpec(name="{name}", description=…, fn=_fn, schema=schema)
+
+Available imports (already present at module top):
+    from __future__ import annotations
+    from typing import Any
+    import pandas as pd
+    import numpy as np
+    from domain.domain_tools import DomainCatalogContext, DomainToolSpec
+
+Return ONLY the function inside a ```python code fence.  No imports, no
+module-level code, no tests — just the function.

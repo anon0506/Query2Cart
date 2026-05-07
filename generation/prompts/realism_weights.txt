@@ -1,0 +1,25 @@
+You are assessing how important each constraint dimension is when real
+users shop for {item_noun}s.
+
+DOMAIN: {domain_description}
+
+Rate each constraint dimension below on a 1-5 REALISM scale:
+  5 = Universal — virtually every user would specify this
+      (e.g., price for electronics, category for food)
+  4 = Very common — most users mention this naturally
+  3 = Common — frequently relevant in shopping conversations
+  2 = Occasional — some users care, most don't
+  1 = Niche — rarely mentioned unless the user has very specific needs
+
+Mark AT MOST ONE constraint as "always_include": true — only if
+virtually every real user in this domain would specify it.
+
+CONSTRAINTS:
+{constraint_list}
+
+Return JSON:
+{{
+  "constraints": [
+    {{"name": "...", "realism_weight": 3, "always_include": false}}
+  ]
+}}

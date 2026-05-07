@@ -1,0 +1,25 @@
+You are classifying remaining attribute keys that were not included in the primary normalization pass.
+
+Here are the canonical attribute groups already established:
+
+{canonical_groups}
+
+Here are {n_tail_keys} additional raw keys found in fewer products. For each, decide if it belongs to an existing canonical group or should be discarded.
+
+Rules:
+- Only assign a tail key to a canonical group if it clearly refers to the same concept.
+- Do NOT create new canonical groups. Only use existing canonical names from the list above.
+- When in doubt, discard.
+
+Raw tail keys:
+{tail_keys}
+
+Return JSON:
+{{
+  "assignments": [
+    {{"raw_key": "some_key", "canonical": "existing_canonical_name"}}
+  ],
+  "discarded": ["key_x", "key_y"]
+}}
+
+Return ONLY valid JSON.

@@ -1,0 +1,42 @@
+You are verifying auto-generated Python tools for a {item_noun}
+recommendation agent.  The tools will run against a real catalog.
+
+{context}
+
+── GENERATED MODULE ──
+```python
+{module_code}
+```
+
+Verify EACH tool for:
+1. SYNTAX — valid Python, correct indentation
+2. SCHEMA — the OpenAI function-calling schema matches the implementation
+   (parameter names, types, required list)
+3. DATA TYPES — correct handling of catalog column types:
+   • Array columns (genres, categories, languages) are numpy arrays
+   • Boolean columns are Python bool
+   • The catalog index dtype is {id_dtype}
+   • product_id arguments are always strings from the agent
+4. EDGE CASES — handles product-not-found, null/NaN values, empty arrays
+5. OUTPUT — returns useful, concise text the agent can parse
+6. COVERAGE — collectively the tools must support filtering, exploration,
+   inspection, and discovery against this catalog
+
+Return JSON (no markdown fences):
+{{
+  "verdict": "pass" or "needs_fixes",
+  "tool_reviews": [
+    {{
+      "name": "tool_name",
+      "status": "pass" or "fail",
+      "issues": ["issue description", ...],
+      "severity": "critical" or "minor"
+    }}
+  ],
+  "fixed_module": null
+}}
+
+If ANY tool has a CRITICAL issue (would cause a runtime error), set
+verdict="needs_fixes" and put the COMPLETE corrected Python module in
+"fixed_module" (as a single string).  Fix ONLY the critical issues.
+If all tools pass, set verdict="pass" and fixed_module=null.

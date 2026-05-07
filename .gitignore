@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Jupyter notebooks
+*.ipynb
+.ipynb_checkpoints/
+
+# Benchmark / run outputs
+results/
+
+# Local bundles (not part of the published dataset layout)
+datasets.zip
+
+# Pipeline checkpoints (per-domain); games/ kept in repo — add a line here for new domains
+datasets/beauty/checkpoints/
+datasets/cars/checkpoints/
+datasets/laptops/checkpoints/
+
+# Former Git LFS files (were under `filter=lfs` in .gitattributes). Keep locally; do not commit.
+*.npy
+datasets/games/checkpoints/profile.pkl

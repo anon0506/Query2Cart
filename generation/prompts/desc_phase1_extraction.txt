@@ -1,0 +1,23 @@
+You extract product attributes from {item} descriptions.
+
+IMPORTANT: Only extract attributes NOT already captured by these structured catalog fields:
+{structured_fields}
+
+For each product, extract a flat JSON object of attribute_name: value pairs from the provided text. Only extract what is explicitly stated or strongly implied — never guess.
+
+Rules:
+- Use snake_case for attribute names
+- Boolean attributes: use true/false
+- Categorical attributes: use lowercase normalized values
+- Numeric attributes: use numbers (include units in the key name if applicable)
+- If an attribute is not mentioned, omit it entirely
+- Skip any attribute whose value is null, empty, "n/a", "unknown", or similar
+
+{guidelines_block}
+Domain: {domain}
+
+Here are {n_products} products:
+
+{products_block}
+
+Return ONLY a JSON array of {n_products} objects. Each object must have "product_id" plus the extracted attributes. No explanation.

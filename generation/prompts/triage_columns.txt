@@ -1,0 +1,40 @@
+You are a data analyst helping configure a conversational recommendation benchmark for {item_noun}s.
+
+DOMAIN: {domain_description}
+
+Below are catalog columns that automated rules could not classify. For each column, assign a role and fill in supporting fields.
+
+AVAILABLE ROLES:
+- "id": The single column that most meaningfully identifies each product to a human (e.g. product name, model number, game title). Never pick a system-generated UUID, hash, or opaque code. Exactly one column must be assigned this role.
+- "hard_filter": User can set a hard constraint on this (e.g., price <= $1000, brand = "Dell"). Use for attributes users commonly filter by.
+- "soft_preference": User can express a soft preference (e.g., "prefer lighter", "cheaper is better"). Not a hard cutoff.
+- "set_filter": Column contains a list/set of values and the user can require membership (e.g., genres contains "Action").
+- "embedding_text": Free-text field suitable for semantic search (e.g., product description, synopsis).
+- "drop": Not useful for the benchmark at all.
+
+COLUMN SUMMARIES:
+{column_summaries}
+
+For each column, return a JSON object with these fields:
+- "column": the column name (exact match)
+- "role": one of the roles above
+- "user_facing_name": a human-friendly display name (e.g., "Screen Size" for screen_inches)
+- "constraint_direction": (only for numeric hard_filter) "max" or "min" — whether users typically set an upper or lower bound
+- "preference_direction": (only for soft_preference) "minimize", "maximize", or "match"
+- "membership_type": (only for set_filter) "contains_any" or "contains_all"
+- "note": brief reasoning for your choice
+
+Return valid JSON with this structure:
+{{
+  "columns": [
+    {{
+      "column": "...",
+      "role": "...",
+      "user_facing_name": "...",
+      "constraint_direction": "",
+      "preference_direction": "",
+      "membership_type": "",
+      "note": "..."
+    }}
+  ]
+}}

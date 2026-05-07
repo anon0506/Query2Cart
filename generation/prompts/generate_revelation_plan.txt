@@ -1,0 +1,97 @@
+You distribute a user's hard constraints into a revelation plan for a conversational {item_noun} recommendation benchmark. The plan controls HOW and WHEN the simulated user reveals each constraint during the conversation.
+
+DIFFICULTY TARGET: {difficulty}
+
+HARD CONSTRAINT KEYS (distribute ALL of these — use the exact key names):
+{constraint_keys}
+
+AVAILABLE RESPONSIVE TRIGGERS (use these exact names):
+{responsive_triggers}
+
+AVAILABLE REACTIVE TRIGGERS (use these exact names):
+{reactive_triggers}
+
+REVELATION CATEGORIES:
+- proactive: Constraints the user mentions upfront in their opening message.
+- responsive: Constraints the user reveals when the agent asks about a topic. Format: trigger_name -> [constraint_keys].
+- reactive: Constraints the user reveals ONLY after the agent suggests something that violates them. Format: trigger_name -> [constraint_keys].
+- contextual: Always empty dict (preferences handle this).
+
+DIFFICULTY RULES — follow these strictly:
+
+For "easy":
+  - proactive: 2-3 constraints (user is forthcoming)
+  - responsive: remaining constraints
+  - reactive: NONE (empty dict)
+
+For "medium":
+  - proactive: 1 constraint
+  - responsive: 1-2 constraints
+  - reactive: EXACTLY 1 trigger with 1+ constraints
+
+For "hard":
+  - proactive: 0-1 constraints (user is vague)
+  - responsive: 1 constraint
+  - reactive: AT LEAST 2 triggers, each with 1+ constraints
+
+For "oc_feasible":
+  - proactive: 1 constraint
+  - responsive: 1-2 constraints
+  - reactive: 1 trigger with 1+ constraints
+
+For "oc_infeasible":
+  - Same structure as oc_feasible
+
+EXAMPLES:
+
+--- Example 1: easy (5 constraints) ---
+Constraints: ["brand", "category", "price_range", "skin_type", "spf"]
+Result:
+{{
+  "proactive": ["brand", "category", "skin_type"],
+  "responsive": {{"agent_asks_budget": ["price_range"], "agent_asks_details": ["spf"]}},
+  "reactive": {{}},
+  "contextual": {{}}
+}}
+
+--- Example 2: medium (4 constraints) ---
+Constraints: ["category", "price_range", "brand", "finish_type"]
+Result:
+{{
+  "proactive": ["category"],
+  "responsive": {{"agent_asks_budget": ["price_range"]}},
+  "reactive": {{"agent_suggests_wrong_brand": ["brand", "finish_type"]}},
+  "contextual": {{}}
+}}
+
+--- Example 3: hard (5 constraints) ---
+Constraints: ["category", "brand", "skin_type", "price_range", "ingredient"]
+Result:
+{{
+  "proactive": ["category"],
+  "responsive": {{"agent_asks_details": ["skin_type"]}},
+  "reactive": {{"agent_suggests_wrong_brand": ["brand"], "agent_suggests_wrong_price": ["price_range", "ingredient"]}},
+  "contextual": {{}}
+}}
+
+--- Example 4: hard (4 constraints) ---
+Constraints: ["category", "shade_range", "formulation", "cruelty_free"]
+Result:
+{{
+  "proactive": [],
+  "responsive": {{"agent_asks_details": ["category"]}},
+  "reactive": {{"agent_suggests_wrong_shade": ["shade_range"], "agent_suggests_wrong_formulation": ["formulation", "cruelty_free"]}},
+  "contextual": {{}}
+}}
+
+INSTRUCTIONS:
+Distribute the constraint keys above into a revelation plan that matches the "{difficulty}" difficulty rules.
+Every constraint key MUST appear in exactly one category. Use only the provided trigger names.
+
+Return ONLY valid JSON:
+{{
+  "proactive": [...],
+  "responsive": {{ ... }},
+  "reactive": {{ ... }},
+  "contextual": {{}}
+}}

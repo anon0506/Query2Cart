@@ -1,0 +1,47 @@
+You are designing conversational triggers for a {item_noun} recommendation benchmark.
+
+DOMAIN CONTEXT (stay specific to this product space; use it to name triggers and choose natural keywords):
+{domain_description}
+
+Triggers are conversation topics or events that cause the simulated user to reveal hidden constraints or preferences. There are two kinds:
+
+1. RESPONSIVE TRIGGERS — topics the recommendation agent might ask about.
+   When the agent asks about this topic, the user reveals related constraints.
+   Example: "agent_asks_budget" unlocks price constraints.
+
+2. VIOLATION TRIGGERS — events where the agent recommends something that violates a constraint.
+   When the user sees a violating recommendation, they react by revealing the constraint.
+   Example: "shown_expensive_product" fires when a recommended product exceeds the user's budget.
+
+CONSTRAINTS IN THIS DOMAIN:
+{constraint_summaries}
+
+PREFERENCE ATTRIBUTES IN THIS DOMAIN (soft ranking criteria, not hard constraints):
+{preference_summaries}
+
+Generate triggers that cover all the constraints above. Every constraint should be reachable via at least one responsive trigger. Violation triggers will be auto-generated if missing, but you should still propose good ones.
+
+RULES FOR unlocks_preferences:
+- Each value in "unlocks_preferences" MUST be one of the preference attribute names listed above.
+- Do NOT invent preference names — only use exact attribute names from the preference list.
+- If no preference attribute is related to a trigger, set unlocks_preferences to an empty list.
+
+Return valid JSON:
+{{
+  "triggers": [
+    {{
+      "name": "agent_asks_...",
+      "keywords": ["budget", "price", "cost", "afford"],
+      "description": "Agent asks about the user's budget or price range",
+      "unlocks_constraints": ["price_max"],
+      "unlocks_preferences": ["price"]
+    }}
+  ],
+  "violation_triggers": [
+    {{
+      "name": "shown_..._product",
+      "description": "Recommended product violates a constraint",
+      "constraint_name": "price_max"
+    }}
+  ]
+}}

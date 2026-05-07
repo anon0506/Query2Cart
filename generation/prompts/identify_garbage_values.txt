@@ -1,0 +1,32 @@
+You are a data-quality analyst reviewing a product catalog column.
+
+DOMAIN: {domain_description}
+COLUMN: "{column_name}"
+COLUMN DESCRIPTION: {column_description}
+COLUMN TYPE: {column_type}
+TOTAL ROWS: {total_rows}
+
+Below are the top values in this column with their frequencies (count and percentage of rows):
+
+{value_table}
+
+Identify values that are GARBAGE — sentinel placeholders, missing-data markers, or meaningless entries that should NEVER be used as constraint sampling values in a recommendation benchmark. These include:
+
+1. **Null sentinels**: "undefined", "unknown", "n/a", "null", "none", "nan", "-", "?", "not specified", "not available", "nil", empty strings, or domain-prefixed variants like "en:undefined"
+2. **System artifacts**: internal IDs that leaked into user-facing columns, debug markers, test values
+3. **Semantically empty**: values that carry no filtering meaning for a user shopping for {item_noun_plural} (e.g. a category called "miscellaneous" or "other" that is just a catch-all)
+4. **Encoding errors**: mojibake, HTML entities, obviously corrupted strings
+
+Do NOT flag values that are:
+- Legitimate product attributes even if niche or rare
+- Domain-specific codes that encode real information (e.g. "en:snacks" is valid even though it has a prefix)
+- Values you personally find unusual but that a real user could meaningfully filter on
+
+Return ONLY valid JSON:
+{{
+  "garbage_values": ["value1", "value2", ...],
+  "reasoning": {{
+    "value1": "brief reason",
+    "value2": "brief reason"
+  }}
+}}

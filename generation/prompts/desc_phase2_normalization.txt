@@ -1,0 +1,33 @@
+You normalize raw attribute keys extracted from {domain} descriptions into canonical groups.
+
+You are given {n_keys} raw attribute keys and how many products have each. Many raw keys refer to the same concept — group synonyms into canonical names.
+
+QUALITY GUIDELINES:
+1. Aim for 15–30 canonical attributes. Each should represent a decision-relevant dimension — something a customer would realistically filter or compare on.
+2. Use snake_case for canonical names.
+3. Boolean features: prefix with "has_" or "is_".
+4. Categorical: use descriptive names that reflect the dimension, not specific values.
+5. Numeric: include unit hint (e.g., "weight_oz", "volume_ml").
+6. Merge keys that differ only in specificity — keep the broader name (e.g., "vanilla_scent" and "scent" merge into "scent").
+7. Do NOT create both a boolean and a categorical for the same concept (e.g., keep "scent_type" OR "has_scent", not both — the categorical subsumes the boolean).
+8. DISCARD keys that duplicate these STRUCTURED catalog fields: {structured_fields}
+9. DISCARD keys about packaging, shipping, purely internal metadata, or per-SKU identifiers (e.g., shade_name).
+10. Group aggressively — if two keys clearly mean the same thing, merge them.
+
+Return JSON:
+{{
+  "groups": [
+    {{
+      "canonical": "example_attr",
+      "type": "categorical|boolean|numeric",
+      "raw_keys": ["raw_key_1", "raw_key_2"],
+      "description": "Short description"
+    }}
+  ],
+  "discarded": ["raw_key_x", "raw_key_y"]
+}}
+
+Raw keys (sorted by frequency):
+{payload}
+
+Return ONLY valid JSON.
