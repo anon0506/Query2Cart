@@ -96,14 +96,14 @@ Oc-Infeasible           2   0.500   50.0%     —      —    71.0%     —     
 
 ## Pre-built Domains
 
-Four domains ship ready to use in `datasets/`:
+Four domains ship ready to use in `datasets/`, totaling **143,452 products**:
 
 | Domain | Products | Tasks | Constraints | Pref-Eligible Attributes | Description |
 |---|---|---|---|---|---|
-| **Laptops** | 8,000+ | 220 | 10 | 8 | Consumer laptops with specs, pricing, and features |
-| **Beauty** | 8,000+ | 250 | 11 | 3 | Skincare and beauty products |
-| **Cars** | 4,000+ | 150 | 13 | 3 | Used car listings with detailed specs |
-| **Games** | 50,000+ | 250 | 11 | 5 | Video games across platforms and genres |
+| **Laptops** | 8,369 | 220 | 10 | 8 | Consumer laptops with specs, pricing, and features |
+| **Beauty** | 8,454 | 250 | 11 | 3 | Skincare and beauty products |
+| **Cars** | 11,914 | 150 | 13 | 3 | Used car listings with detailed specs |
+| **Games** | 114,715 | 250 | 11 | 5 | Video games across platforms and genres |
 
 Each domain directory contains:
 
